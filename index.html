@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAssistant AI - Premium Medical Companion</title>
+    <meta name="description" content="An advanced AI-powered medical assistant dashboard featuring symptom triaging, automated clinical conversations, health metrics, and medication tracking.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-wrapper">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="url(#logo-grad)"/>
+                        <path d="M12 10.5V11.5M9.5 12H14.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logo-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#00f2fe"/>
+                                <stop offset="1" stop-color="#4facfe"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="pulse-ring"></div>
+                </div>
+                <h2>MedAssistant <span class="badge">AI</span></h2>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="dashboard" id="btn-dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-tab="chat" id="btn-chat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>AI Consultation</span>
+                    <span class="pulse-indicator"></span>
+                </button>
+                <button class="nav-item" data-tab="symptom" id="btn-symptom">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    <span>Symptom Checker</span>
+                </button>
+                <button class="nav-item" data-tab="profile" id="btn-profile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>Health Profile</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile-summary">
+                    <div class="avatar">JD</div>
+                    <div class="user-info">
+                        <h4>John Doe</h4>
+                        <p>ID: MED-99382</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Display Content Area -->
+        <main class="main-content">
+            <!-- Top Status Bar -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h1 id="current-section-title">Dashboard</h1>
+                    <p id="current-section-subtitle">Welcome back, John. Here is your health overview.</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-display" id="date-display">Friday, July 10, 2026</div>
+                    <div class="status-pill connected">
+                        <span class="indicator"></span>
+                        AI Core Connected
+                    </div>
+                </div>
+            </header>
+
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard" class="content-section active">
+                <div class="dashboard-grid">
+                    <!-- Welcome Hero Banner -->
+                    <div class="hero-banner">
+                        <div class="hero-text">
+                            <h2>Your Daily Health Insights</h2>
+                            <p>All physiological systems are operating within optimal limits. We recommend a light cardio session today based on your recovery score.</p>
+                            <button class="btn btn-primary" onclick="switchTab('symptom')">Start Quick Assessment</button>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="glowing-orb"></div>
+                        </div>
+                    </div>
+
+                    <!-- Vitals Metrics Grid -->
+                    <div class="vitals-row">
+                        <div class="vital-card heart-rate">
+                            <div class="card-header">
+                                <span>Heart Rate</span>
+                                <div class="icon-box">❤️</div>
+                            </div>
+                            <div class="card-value">
+                                <span class="number" id="vital-heart">72</span> <span class="unit">BPM</span>
+                            </div>
+                            <div class="card-chart">
+                                <svg class="sparkline" viewBox="0 0 100 30">
+                                    <path d="M0,15 L10,15 L20,15 L25,5 L30,25 L35,15 L45,15 L55,15 L60,8 L65,22 L70,15 L80,15 L90,15 L100,15" stroke="#ff4b5c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="card-footer normal">
+                                <span class="status-dot"></span> Stable • Rest
+                            </div>
+                        </div>
+
+                        <div class="vital-card blood-pressure">
+                            <div class="card-header">
+                                <span>Blood Pressure</span>
+                                <div class="icon-box">🩺</div>
+                            </div>
+                            <div class="card-value">
+                                <span class="number" id="vital-bp">118/75</span> <span class="unit">mmHg</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 80%"></div>
+                            </div>
+                            <div class="card-footer optimal">
+                                <span class="status-dot"></span> Optimal Range
+                            </div>
+                        </div>
+
+                        <div class="vital-card sleep-tracker">
+                            <div class="card-header">
+                                <span>Sleep Duration</span>
+                                <div class="icon-box">🌙</div>
+                            </div>
+                            <div class="card-value">
+                                <span class="number" id="vital-sleep">7.8</span> <span class="unit">Hrs</span>
+                            </div>
+                            <div class="gauge-indicator">
+                                <div class="gauge-fill" style="width: 86%;"></div>
+                            </div>
+                            <div class="card-footer restful">
+                                <span class="status-dot"></span> 86% Quality Score
+                            </div>
+                        </div>
+
+                        <div class="vital-card activity-tracker">
+                            <div class="card-header">
+                                <span>Daily Steps</span>
+                                <div class="icon-box">👟</div>
+                            </div>
+                            <div class="card-value">
+                                <span class="number" id="vital-steps">6,432</span> <span class="unit">/ 8k</span>
+                            </div>
+                            <div class="gauge-indicator">
+                                <div class="gauge-fill steps-fill" style="width: 80.4%;"></div>
+                            </div>
+                            <div class="card-footer normal">
+                                <span class="status-dot"></span> Active (80% goal)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medication & Reminders Component -->
+                    <div class="medication-container">
+                        <div class="card medication-log">
+                            <div class="card-title-bar">
+                                <h3>Medication & Treatment Reminders</h3>
+                                <button class="btn btn-secondary-sm" id="btn-add-med-modal">+ Add Medication</button>
+                            </div>
+                            <div class="med-list" id="medication-list">
+                                <!-- Loaded dynamically via JS -->
+                                <div class="med-item">
+                                    <div class="med-info">
+                                        <h4>Lisinopril</h4>
+                                        <p>10mg • 1 capsule Daily (Morning)</p>
+                                    </div>
+                                    <div class="med-time">08:00 AM</div>
+                                    <div class="med-actions">
+                                        <span class="status-tag taken">Taken</span>
+                                    </div>
+                                </div>
+                                <div class="med-item">
+                                    <div class="med-info">
+                                        <h4>Omega-3 Fish Oil</h4>
+                                        <p>1000mg • 2 softgels Daily (With meal)</p>
+                                    </div>
+                                    <div class="med-time">01:00 PM</div>
+                                    <div class="med-actions">
+                                        <button class="btn btn-action" onclick="markAsTaken(this)">Mark Taken</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card ai-recommendation">
+                            <h3>Active Health Assessment</h3>
+                            <div class="insights-summary">
+                                <div class="insight-item green">
+                                    <div class="insight-icon">✓</div>
+                                    <div class="insight-content">
+                                        <h4>Cardiovascular Recovery</h4>
+                                        <p>Your heart rate variability indicates strong recovery. Perfect day for endurance workouts.</p>
+                                    </div>
+                                </div>
+                                <div class="insight-item blue">
+                                    <div class="insight-icon">ℹ</div>
+                                    <div class="insight-content">
+                                        <h4>Hydration Focus</h4>
+                                        <p>Based on today's ambient temp, you require an additional 750ml of water to maintain metabolic balance.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI CONSULTATION SECTION -->
+            <section id="chat" class="content-section">
+                <div class="chat-wrapper">
+                    <div class="chat-sidebar">
+                        <h3>Conversational Triage</h3>
+                        <p class="description">Chat with our Clinical AI. It can guide you on symptoms, medication info, or general wellness advice.</p>
+                        
+                        <div class="suggestion-chips">
+                            <h4>Suggested Inquiries</h4>
+                            <button class="chip" onclick="sendSuggestedMessage('I\'ve had a throbbing headache for two days')">🤕 2-day headache advice</button>
+                            <button class="chip" onclick="sendSuggestedMessage('Explain the side effects of Metformin')">💊 Metformin side effects</button>
+                            <button class="chip" onclick="sendSuggestedMessage('What are the symptoms of high blood sugar?')">🩸 High blood sugar symptoms</button>
+                            <button class="chip" onclick="sendSuggestedMessage('Recommend some exercises for lower back pain')">🧘 Exercises for back pain</button>
+                        </div>
+                        
+                        <div class="emergency-notice">
+                            <strong>⚠️ Emergency Warning</strong>
+                            <p>If you are experiencing severe chest pain, shortness of breath, or sudden weakness, please dial emergency services immediately.</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-main-container">
+                        <div class="chat-header">
+                            <div class="assistant-avatar">🤖</div>
+                            <div class="assistant-status">
+                                <h3>MedAssistant Clinical AI</h3>
+                                <p><span class="online-indicator"></span> Active | General Practitioner Model</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-messages" id="chat-messages-container">
+                            <div class="message assistant">
+                                <div class="msg-bubble">
+                                    Hello, John. I am your medical companion. How can I help you manage your health today?
+                                </div>
+                                <span class="msg-time">03:14 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-typing-indicator" id="chat-typing">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-input" placeholder="Ask anything about symptoms, drugs, dosage, wellness..." autocomplete="off">
+                            <button class="btn-send" id="btn-send-message">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SYMPTOM CHECKER SECTION -->
+            <section id="symptom" class="content-section">
+                <div class="symptom-wizard-card">
+                    <!-- Progress Bar -->
+                    <div class="wizard-progress">
+                        <div class="step active" id="step-1-indicator">
+                            <span class="step-num">1</span>
+                            <span class="step-label">Basic Data</span>
+                        </div>
+                        <div class="step" id="step-2-indicator">
+                            <span class="step-num">2</span>
+                            <span class="step-label">Select Symptoms</span>
+                        </div>
+                        <div class="step" id="step-3-indicator">
+                            <span class="step-num">3</span>
+                            <span class="step-label">Details & Scale</span>
+                        </div>
+                        <div class="step" id="step-4-indicator">
+                            <span class="step-num">4</span>
+                            <span class="step-label">AI Analysis</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Basic Info -->
+                    <div class="wizard-step-content active" id="wizard-step-1">
+                        <h2>Personal Assessment Parameters</h2>
+                        <p class="step-desc">Provide biological variables to refine the clinical analysis model.</p>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="symp-age">Age</label>
+                                <input type="number" id="symp-age" value="35" min="1" max="120">
+                            </div>
+                            <div class="form-group">
+                                <label for="symp-gender">Biological Sex</label>
+                                <select id="symp-gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Prior Diagnosed Conditions (Select all that apply)</label>
+                                <div class="checkbox-chips">
+                                    <label class="check-chip"><input type="checkbox" value="Hypertension"> Hypertension</label>
+                                    <label class="check-chip"><input type="checkbox" value="Diabetes"> Diabetes Type 2</label>
+                                    <label class="check-chip"><input type="checkbox" value="Asthma"> Asthma</label>
+                                    <label class="check-chip"><input type="checkbox" value="High Cholesterol"> High Cholesterol</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button class="btn btn-primary" onclick="nextWizardStep(2)">Continue to Symptoms</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Symptom Selection -->
+                    <div class="wizard-step-content" id="wizard-step-2">
+                        <h2>What symptoms are you experiencing?</h2>
+                        <p class="step-desc">Search for symptoms or select from the common terms below.</p>
+                        
+                        <div class="symptom-search-box">
+                            <input type="text" id="symptom-search-input" placeholder="Type a symptom (e.g. Cough, Headache, Nausea)...">
+                            <button class="btn btn-secondary-sm" onclick="addCustomSymptom()">Add</button>
+                        </div>
+
+                        <div class="common-symptoms-grid">
+                            <h4>Common Selection Prompts:</h4>
+                            <div class="symptom-pool">
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Headache')">🤕 Headache</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Fever')">🔥 Fever</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Cough')">🗣️ Cough</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Sore Throat')">🧣 Sore Throat</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Shortness of Breath')">🫁 Shortness of Breath</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Nausea')">🤢 Nausea</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Fatigue')">💤 Fatigue</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Muscle Aches')">💪 Muscle Aches</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Chest Pain')">🫀 Chest Pain</button>
+                                <button class="symptom-tag" onclick="toggleSymptomTag(this, 'Dizziness')">🌀 Dizziness</button>
+                            </div>
+                        </div>
+
+                        <div class="selected-symptoms-list">
+                            <h4>Selected Symptoms:</h4>
+                            <div id="selected-symptoms-container" class="selected-chips-container">
+                                <span class="no-symptoms-placeholder">No symptoms selected yet.</span>
+                            </div>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button class="btn btn-outline" onclick="prevWizardStep(1)">Back</button>
+                            <button class="btn btn-primary" onclick="nextWizardStep(3)">Continue to Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Scale and Duration -->
+                    <div class="wizard-step-content" id="wizard-step-3">
+                        <h2>Symptom Details & Severity</h2>
+                        <p class="step-desc">Rate the intensity of the discomfort and how long you have experienced it.</p>
+
+                        <div class="details-form">
+                            <div class="form-group slider-group">
+                                <label for="symptom-severity-slider">Discomfort / Severity Scale: <span id="severity-val" class="highlight">5/10</span></label>
+                                <input type="range" id="symptom-severity-slider" min="1" max="10" value="5" oninput="document.getElementById('severity-val').innerText = this.value + '/10'">
+                                <div class="slider-labels">
+                                    <span>Mild</span>
+                                    <span>Moderate</span>
+                                    <span>Severe</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="symptom-duration">Duration of Symptoms</label>
+                                <select id="symptom-duration">
+                                    <option value="Less than 24 hours">Less than 24 hours</option>
+                                    <option value="1-3 days">1 to 3 days</option>
+                                    <option value="4-7 days">4 to 7 days</option>
+                                    <option value="1-2 weeks">1 to 2 weeks</option>
+                                    <option value="More than 2 weeks">More than 2 weeks</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="additional-notes">Additional Context (Optional)</label>
+                                <textarea id="additional-notes" rows="3" placeholder="Explain anything else that seems relevant (e.g. trigger factor, medications taken, recent travel)..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button class="btn btn-outline" onclick="prevWizardStep(2)">Back</button>
+                            <button class="btn btn-primary" onclick="runSymptomAnalysis()">Generate Diagnostic Report</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: AI Analysis Output -->
+                    <div class="wizard-step-content" id="wizard-step-4">
+                        <div class="analysis-spinner-container" id="analysis-spinner">
+                            <div class="spinner"></div>
+                            <p>Analyzing physiological parameters against medical intelligence database...</p>
+                        </div>
+
+                        <div class="analysis-results-container hidden" id="analysis-results">
+                            <div class="report-header">
+                                <div class="report-badge" id="report-risk-badge">Moderate Risk</div>
+                                <h2>AI Diagnostic Triage Report</h2>
+                                <p class="timestamp">Generated on: <span id="report-time">July 10, 2026</span></p>
+                            </div>
+
+                            <div class="report-body">
+                                <div class="report-section">
+                                    <h3>Primary Considerations</h3>
+                                    <p id="report-consideration">Based on the symptoms of headache and fatigue lasting 1-3 days, these patterns are highly indicative of mild viral syndrome (like a common cold or early flu) or tension headaches linked to fatigue.</p>
+                                </div>
+
+                                <div class="report-grid">
+                                    <div class="report-card green">
+                                        <h4>Recommended Actions</h4>
+                                        <ul id="report-actions">
+                                            <li>Maintain hydration (at least 2.5L water daily).</li>
+                                            <li>Take adequate rest and monitor temperature.</li>
+                                            <li>Over-the-counter pain relief (e.g., Acetaminophen/Paracetamol) if headaches persist, adhering to package dosage.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="report-card red">
+                                        <h4>Red Flags to Watch For</h4>
+                                        <p id="report-red-flags">Seek immediate clinical attention if you experience: sudden stiff neck, fever exceeding 38.9°C (102°F), visual disturbances, or confusion.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="clinical-disclaimer">
+                                    <strong>Disclaimer:</strong> This assessment is generated by an artificial intelligence assistant for educational and triage guidance purposes only. It does not constitute formal medical diagnosis, prognosis, or treatment. Please consult a qualified healthcare provider for clinical evaluation.
+                                </div>
+                            </div>
+
+                            <div class="wizard-actions">
+                                <button class="btn btn-secondary" onclick="restartSymptomWizard()">Run New Assessment</button>
+                                <button class="btn btn-primary" onclick="consultReportInChat()">Discuss Report with AI</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HEALTH PROFILE SECTION -->
+            <section id="profile" class="content-section">
+                <div class="profile-layout">
+                    <div class="profile-card main">
+                        <div class="avatar-large">JD</div>
+                        <h2>John Doe</h2>
+                        <p class="sub">Patient Account ID: MED-99382 • Male, 35 Years Old</p>
+                        <div class="bio-tags">
+                            <span class="bio-tag">Blood Type: O+</span>
+                            <span class="bio-tag">Weight: 78 kg</span>
+                            <span class="bio-tag">Height: 180 cm</span>
+                        </div>
+                        
+                        <div class="profile-details-grid">
+                            <div class="detail-item">
+                                <strong>Primary Care Physician</strong>
+                                <p>Dr. Elizabeth Sterling, MD (Cardiology)</p>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Emergency Contact</strong>
+                                <p>Jane Doe (Spouse) - +1 (555) 019-2831</p>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Allergies</strong>
+                                <p class="allergy-tag">Penicillin</p>
+                                <p class="allergy-tag">Peanuts</p>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Health Insurance Policy</strong>
+                                <p>BlueShield Healthcare Core #BS-90928-11</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card config">
+                        <h3>Profile Settings & Integrations</h3>
+                        <div class="toggle-group">
+                            <div class="toggle-item">
+                                <div class="toggle-text">
+                                    <h4>Wearable Sync</h4>
+                                    <p>Sync physiological telemetry from Apple Health / Fitbit automatically.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider-round"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-text">
+                                    <h4>AI Proactive Alerts</h4>
+                                    <p>Allow the Clinical Assistant to ping you if your vitals drift from optimal ranges.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider-round"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-text">
+                                    <h4>Encrypted Cloud Backup</h4>
+                                    <p>Save reports and medical history using end-to-end encryption.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider-round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Medication Modal Dialog -->
+    <div class="modal" id="add-med-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-med-modal">&times;</span>
+            <h3>Add New Medication</h3>
+            <form id="add-med-form" onsubmit="handleNewMedication(event)">
+                <div class="form-group">
+                    <label for="new-med-name">Medication Name</label>
+                    <input type="text" id="new-med-name" required placeholder="e.g. Ibuprofen, Metformin">
+                </div>
+                <div class="form-group">
+                    <label for="new-med-dosage">Dosage & Strength</label>
+                    <input type="text" id="new-med-dosage" required placeholder="e.g. 500mg, 1 tablet">
+                </div>
+                <div class="form-group">
+                    <label for="new-med-frequency">Frequency</label>
+                    <input type="text" id="new-med-frequency" required placeholder="e.g. Once daily, Twice daily with meals">
+                </div>
+                <div class="form-group">
+                    <label for="new-med-time">Time of Administration</label>
+                    <input type="time" id="new-med-time" required value="08:00">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="btn-cancel-med">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Medication</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
